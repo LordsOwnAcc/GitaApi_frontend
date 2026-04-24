@@ -44,7 +44,6 @@ export type Verse = {
   rams?: Commentary;
   raman?: Commentary;
   kesav?: Commentary;
-  [key: string]: unknown;
 };
 
 export const TRANSLATOR_KEYS = [
