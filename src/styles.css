@@ -192,7 +192,48 @@
   }
 
   body {
-    background-color: var(--color-background);
+    background: var(--gradient-hero);
+    background-attachment: fixed;
     color: var(--color-foreground);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.015em;
+  }
+
+  .font-sanskrit {
+    font-family: var(--font-sanskrit);
+    line-height: 1.9;
+  }
+
+  .text-saffron { color: var(--saffron); }
+  .text-saffron-deep { color: var(--saffron-deep); }
+  .text-indigo-deep { color: var(--indigo-deep); }
+  .text-gold { color: var(--gold); }
+  .bg-saffron { background: var(--saffron); }
+  .bg-gradient-saffron { background: var(--gradient-saffron); }
+  .bg-gradient-divine { background: var(--gradient-divine); }
+  .shadow-elegant { box-shadow: var(--shadow-elegant); }
+  .shadow-glow { box-shadow: var(--shadow-glow); }
+  .shadow-soft { box-shadow: var(--shadow-soft); }
+
+  .om-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--saffron);
+  }
+  .om-divider::before,
+  .om-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
   }
 }
