@@ -9,10 +9,16 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SearchRouteImport } from './routes/search'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ChapterIdRouteImport } from './routes/chapter.$id'
 import { Route as VerseChapterVerseRouteImport } from './routes/verse.$chapter.$verse'
 
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -31,36 +37,47 @@ const VerseChapterVerseRoute = VerseChapterVerseRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/search': typeof SearchRoute
   '/chapter/$id': typeof ChapterIdRoute
   '/verse/$chapter/$verse': typeof VerseChapterVerseRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/search': typeof SearchRoute
   '/chapter/$id': typeof ChapterIdRoute
   '/verse/$chapter/$verse': typeof VerseChapterVerseRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/search': typeof SearchRoute
   '/chapter/$id': typeof ChapterIdRoute
   '/verse/$chapter/$verse': typeof VerseChapterVerseRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/chapter/$id' | '/verse/$chapter/$verse'
+  fullPaths: '/' | '/search' | '/chapter/$id' | '/verse/$chapter/$verse'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/chapter/$id' | '/verse/$chapter/$verse'
-  id: '__root__' | '/' | '/chapter/$id' | '/verse/$chapter/$verse'
+  to: '/' | '/search' | '/chapter/$id' | '/verse/$chapter/$verse'
+  id: '__root__' | '/' | '/search' | '/chapter/$id' | '/verse/$chapter/$verse'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  SearchRoute: typeof SearchRoute
   ChapterIdRoute: typeof ChapterIdRoute
   VerseChapterVerseRoute: typeof VerseChapterVerseRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -87,6 +104,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  SearchRoute: SearchRoute,
   ChapterIdRoute: ChapterIdRoute,
   VerseChapterVerseRoute: VerseChapterVerseRoute,
 }
