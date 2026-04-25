@@ -4,7 +4,9 @@ import {
   createRootRouteWithContext,
   HeadContent,
   Scripts,
+  useRouter,
 } from "@tanstack/react-router";
+import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import appCss from "../styles.css?url";
 
@@ -93,12 +95,12 @@ function RootComponent() {
 function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-        <Link to="/" className="flex items-center gap-3 group">
+      <div className="mx-auto flex h-16 max-w-6xl items-center gap-4 px-4">
+        <Link to="/" className="flex items-center gap-3 group shrink-0">
           <span className="font-sanskrit text-3xl text-saffron transition-transform group-hover:scale-110">
             ॐ
           </span>
-          <div className="leading-tight">
+          <div className="leading-tight hidden sm:block">
             <p className="font-display text-lg font-semibold tracking-tight">
               Bhagavad Gītā
             </p>
@@ -107,12 +109,15 @@ function SiteHeader() {
             </p>
           </div>
         </Link>
-        <nav className="flex items-center gap-1 text-sm">
+
+        <HeaderSearch />
+
+        <nav className="flex items-center gap-1 text-sm shrink-0">
           <Link
             to="/"
             activeOptions={{ exact: true }}
             activeProps={{ className: "text-saffron" }}
-            className="px-3 py-1.5 rounded-md hover:text-saffron transition-colors font-medium"
+            className="px-3 py-1.5 rounded-md hover:text-saffron transition-colors font-medium hidden md:inline-flex"
           >
             Chapters
           </Link>
@@ -120,13 +125,52 @@ function SiteHeader() {
             href="https://github.com/LordsOwnAcc/Gita_Api"
             target="_blank"
             rel="noreferrer"
-            className="px-3 py-1.5 rounded-md hover:text-saffron transition-colors font-medium text-muted-foreground"
+            className="px-3 py-1.5 rounded-md hover:text-saffron transition-colors font-medium text-muted-foreground hidden md:inline-flex"
           >
             API
           </a>
         </nav>
       </div>
     </header>
+  );
+}
+
+function HeaderSearch() {
+  const router = useRouter();
+  const [value, setValue] = useState("");
+
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const q = value.trim();
+    router.navigate({ to: "/search", search: { q, lang: "all", chapter: "all" } });
+  };
+
+  return (
+    <form onSubmit={submit} className="flex-1 max-w-md mx-auto">
+      <div className="relative">
+        <input
+          type="search"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          placeholder="Search verses…"
+          className="w-full rounded-full border border-border bg-card/60 pl-10 pr-3 py-2 text-sm focus:outline-none focus:border-saffron focus:ring-2 focus:ring-saffron/20 transition"
+          aria-label="Search the Bhagavad Gita"
+        />
+        <svg
+          className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M21 21l-4.35-4.35M17 10a7 7 0 11-14 0 7 7 0 0114 0z"
+          />
+        </svg>
+      </div>
+    </form>
   );
 }
 
