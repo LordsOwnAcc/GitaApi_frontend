@@ -35,3 +35,15 @@ export const fetchVerse = createServerFn({ method: "GET" })
   .handler(async ({ data }): Promise<Verse> => {
     return safeFetch<Verse>(`${API_BASE}/shlok/${data.chapter}/${data.verse}`);
   });
+
+// Fetch ALL verses across all 18 chapters (parallelized). Cached aggressively
+// on the client via tanstack-query.
+export const fetchAllVerses = createServerFn({ method: "GET" }).handler(
+  async (): Promise<Verse[]> => {
+    const chapterIds = Array.from({ length: 18 }, (_, i) => i + 1);
+    const results = await Promise.all(
+      chapterIds.map((id) => safeFetch<Verse[]>(`${API_BASE}/shlok/${id}`)),
+    );
+    return results.flat();
+  },
+);
