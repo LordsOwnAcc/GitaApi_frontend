@@ -1,0 +1,1 @@
+import{j as e}from"./index-CIZWvjWC.js";const o=({error:t})=>e.jsxs("div",{className:"mx-auto max-w-2xl px-4 py-24 text-center",children:[e.jsx("h1",{className:"text-2xl font-bold",children:"Could not load verses"}),e.jsx("p",{className:"mt-2 text-sm text-muted-foreground",children:t.message})]});export{o as errorComponent};
