@@ -1,17 +1,19 @@
 {
   "name": "tanstack_start_ts",
-"homepage": "https://LordsOwnAcc.github.io/GitaApi_frontend",
+  "homepage": "https://LordsOwnAcc.github.io/GitaApi_frontend",
   "private": true,
   "sideEffects": false,
   "type": "module",
   "scripts": {
     "dev": "vite dev",
-    "build": "vite build",
+     "build": "vite build && npm run fix-worker",
     "build:dev": "vite build --mode development",
-     "deploy": "gh-pages -d dist/client",
+    
     "preview": "vite preview",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+  "fix-worker": "shx cp dist/server/assets/worker-entry-*.js dist/server/worker-entry.js",
+  "deploy:cf": "npm run build && wrangler deploy"
   },
   "dependencies": {
     "@cloudflare/vite-plugin": "^1.25.5",
@@ -84,6 +86,7 @@
     "gh-pages": "^6.3.0",
     "globals": "^15.15.0",
     "prettier": "^3.7.3",
+    "shx": "^0.4.0",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.56.1",
     "vite": "^7.3.1"
